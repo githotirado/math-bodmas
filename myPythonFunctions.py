@@ -18,6 +18,7 @@ def getUserPoint(userName):
     return -1
     
 # Main section
-myUser = input("Enter a user name: ")
-return_value = getUserPoint(myUser)
-print(f"Returned value is: {return_value}")
+if __name__ == "__main__":
+    myUser = input("Enter a user name: ")
+    return_value = getUserPoint(myUser)
+    print(f"Returned value is: {return_value}")
