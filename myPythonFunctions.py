@@ -13,12 +13,9 @@ def getUserPoint(userName):
     '''
     try:
         with open(scorestxt) as scoresFile:
-            # print(f"Opened {scorestxt}.")
             for line in scoresFile:
                 content = line.strip('\n').split(',')
-                # print(f"File '{content[0]}' vs Entry '{userName}'")
                 if userName == content[0]:
-                    # print(f"{content[0]} {content[1]}")
                     scoresFile.close()
                     return 0
     except IOError:
@@ -58,7 +55,7 @@ def updateUserPoints(newUser, userName, score):
 ## Generate the math question
 def genQuestion():
     '''Generate the two random lists containing the operands and operators.
-    Show resulting math question.
+    Show resulting math question.  Prompt user for answer.
     '''
     # Set up the variables containers
     operandList  = [0, 0, 0, 0, 0]
@@ -71,15 +68,11 @@ def genQuestion():
         
     # Popuate operator list, avoiding two consecutive '**'
     for m in range(len(operatorList)):
-        # print(f"m = {m}")
         if (m > 0 and operatorList[m - 1] == '**'):
-            # print("Found prior **, regenerate numbers")
             while (operatorList[m] == ''  or  operatorList[m] == '**'):
                 operatorList[m] = operatorDict[randint(1, 4)]
-                # print(f"operatorList[{m}]: {operatorList[m]}")
         else:
             operatorList[m] = operatorDict[randint(1, 4)]
-            # print(f"operatorList[{m}]: {operatorList[m]}")
     
     # Tack on one final '' to operatorList to help with printing question in loop
     operatorList.append('')
@@ -88,10 +81,21 @@ def genQuestion():
     questionString = ''
     for p in range(len(operandList)):
         questionString += f"{operandList[p]}{operatorList[p]}"
-        # print(f"operands: {operandList}")
-        # print(f"operators: {operatorList}")
+    result = eval(questionString)
+    questionString = questionString.replace('**', '^')
     print(f"{questionString} = ")
-    print(f"{eval(questionString)}")
+    while True:
+        try:
+            userResp = int(input("Enter your guess: "))
+            if userResp == result:
+                print(f"Correct!  You score a point.")
+                return 1
+            else:
+                print(f"Incorrect.  Correct answer is {result}. No points awarded.")
+                return 0
+        except:
+            print(f"Error, not an integer.  Please try again.") 
+
     
 # Main section (executed only library is called from command line)
 if __name__ == "__main__":
@@ -100,4 +104,4 @@ if __name__ == "__main__":
     # return_value = getUserPoint(myUser)
     # print(f"Returned value is: {return_value}")
     # updateUserPoints(True, myUser, myScore)
-    genQuestion()
+    print(genQuestion())
