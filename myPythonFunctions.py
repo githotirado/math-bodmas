@@ -55,11 +55,49 @@ def updateUserPoints(newUser, userName, score):
         remove(scorestxt)
         rename(scorestmp, scorestxt)
 
+## Generate the math question
+def genQuestion():
+    '''Generate the two random lists containing the operands and operators.
+    Show resulting math question.
+    '''
+    # Set up the variables containers
+    operandList  = [0, 0, 0, 0, 0]
+    operatorList = ['','','','']
+    operatorDict = { 1: '+', 2: '-', 3: '*', 4: '**'}
+
+    # Populate operand list
+    for n in range(len(operandList)):
+        operandList[n] = randint(0, 9)
+        
+    # Popuate operator list, avoiding two consecutive '**'
+    for m in range(len(operatorList)):
+        # print(f"m = {m}")
+        if (m > 0 and operatorList[m - 1] == '**'):
+            # print("Found prior **, regenerate numbers")
+            while (operatorList[m] == ''  or  operatorList[m] == '**'):
+                operatorList[m] = operatorDict[randint(1, 4)]
+                # print(f"operatorList[{m}]: {operatorList[m]}")
+        else:
+            operatorList[m] = operatorDict[randint(1, 4)]
+            # print(f"operatorList[{m}]: {operatorList[m]}")
+    
+    # Tack on one final '' to operatorList to help with printing question in loop
+    operatorList.append('')
+
+    # Show the math question
+    questionString = ''
+    for p in range(len(operandList)):
+        questionString += f"{operandList[p]}{operatorList[p]}"
+        # print(f"operands: {operandList}")
+        # print(f"operators: {operatorList}")
+    print(f"{questionString} = ")
+    print(f"{eval(questionString)}")
     
 # Main section (executed only library is called from command line)
 if __name__ == "__main__":
-    myUser = input("Enter a user name: ")
-    myScore = input("Enter that user score: ")
-    return_value = getUserPoint(myUser)
-    print(f"Returned value is: {return_value}")
-    updateUserPoints(True, myUser, myScore)
+    # myUser = input("Enter a user name: ")
+    # myScore = input("Enter that user score: ")
+    # return_value = getUserPoint(myUser)
+    # print(f"Returned value is: {return_value}")
+    # updateUserPoints(True, myUser, myScore)
+    genQuestion()
