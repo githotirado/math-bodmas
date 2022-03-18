@@ -41,7 +41,7 @@ def updateUserPoints(newUser, userName, score):
                 for line in scoresFile:
                     content = line.strip('\n').split(',')
                     content[1] = content[1].strip()
-                    # Decision to append or to update
+                    # Decision to append scores file or to update existing entry
                     if userName != content[0]:
                         scoreTmp.write(f"{content[0]}, {content[1]}\n")
                     else:
@@ -55,7 +55,8 @@ def updateUserPoints(newUser, userName, score):
 ## Generate the math question
 def genQuestion():
     '''Generate the two random lists containing the operands and operators.
-    Show resulting math question.  Prompt user for answer.
+    Show resulting math question.  Prompt user for answer. Compare to actual results
+    and award the player appropriately.
     '''
     # Set up the variables containers
     operandList  = [0, 0, 0, 0, 0]
@@ -66,7 +67,7 @@ def genQuestion():
     for n in range(len(operandList)):
         operandList[n] = randint(0, 9)
         
-    # Popuate operator list, avoiding two consecutive '**'
+    # Populate operator list, avoiding two consecutive '**'
     for m in range(len(operatorList)):
         if (m > 0 and operatorList[m - 1] == '**'):
             while (operatorList[m] == ''  or  operatorList[m] == '**'):
@@ -96,7 +97,7 @@ def genQuestion():
         except:
             print(f"Error, not an integer.  Please try again.") 
 
-    
+
 # Main section (executed only library is called from command line)
 if __name__ == "__main__":
     # myUser = input("Enter a user name: ")
