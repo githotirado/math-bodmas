@@ -8,7 +8,7 @@ scorestmp = pathlib.Path('./math-bodmas/userScore.tmp')
 
 def getUserPoint(userName):
     '''Get the user point from scorestxt file if user 'userName' exists in the file.
-    If 'userName' exists in the file, return code is 0; if user does not yet exist,
+    If 'userName' exists in the file, return code is score; if user does not yet exist,
     create the file and return code -1.
     '''
     try:
@@ -17,7 +17,7 @@ def getUserPoint(userName):
                 content = line.strip('\n').split(',')
                 if userName == content[0]:
                     scoresFile.close()
-                    return 0
+                    return content[1]
     except IOError:
         with open(scorestxt, "w") as scoresFile:
             print(f"File {scorestxt} does not exist.  Creating it.")
@@ -70,6 +70,9 @@ def genQuestion():
     # Populate operator list, avoiding two consecutive '**'
     for m in range(len(operatorList)):
         if (m > 0 and operatorList[m - 1] == '**'):
+            # Instead of the next 'while' loop, make the 'randint' function
+            # return any operator except '**' by excluding operatorDict[4]
+            # operatorList[m] = operatorDict[randint(1, 3)]
             while (operatorList[m] == ''  or  operatorList[m] == '**'):
                 operatorList[m] = operatorDict[randint(1, 4)]
         else:
