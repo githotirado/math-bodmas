@@ -52,11 +52,10 @@ def updateUserPoints(newUser, userName, score):
         remove(scorestxt)
         rename(scorestmp, scorestxt)
 
-## Generate the math question
-def genQuestion():
-    '''Generate the two random lists containing the operands and operators.
-    Show resulting math question.  Prompt user for answer. Compare to actual results
-    and award the player appropriately.
+## (re)Generate the question string
+def genQuestionString():
+    '''Use this function to generate the question string before evaluating it.
+    Use it to re-generate the question string if needed during same program run
     '''
     # Set up the variables containers
     operandList  = [0, 0, 0, 0, 0]
@@ -86,10 +85,22 @@ def genQuestion():
     questionString = ''
     for p in range(len(operandList)):
         questionString += f"{operandList[p]}{operatorList[p]}"
-    # print(f"{questionString} = ")
-    result = round(eval(questionString))
-    questionString = questionString.replace('**', '^')
-    print(f"{questionString} = ")
+
+    return questionString
+
+## Generate the math question
+def genQuestion():
+    '''Generate the two random lists containing the operands and operators.
+    Show resulting math question.  Prompt user for answer. Compare to actual results
+    and award the player appropriately.
+    '''
+    result = -50001
+    while (result < -50000 or result > 50000):
+        qString = genQuestionString()
+        result = round(eval(qString))
+        print(f"Debug: {qString} = {result}")
+    qString = qString.replace('**', '^')
+    print(f"{qString} = ")
     while True:
         try:
             userResp = int(input("Enter your guess: "))
