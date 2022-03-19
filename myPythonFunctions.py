@@ -85,8 +85,8 @@ def genQuestionString():
     #    hence (od0 or0 od1 or1 od2) or2 od3 or3 od4
     #          od0 or0 (od1 or1 od2 or2 od3) or3 od4
     #          od0 or0 od1 or1 (od2 or2 od3 or3 od4)
-    bracketstart = randint(0, 2)
-    bracketend = bracketstart + 2
+    bracketstart = randint(0, 3)
+    bracketend = min(bracketstart + randint(1,4), 4)
 
     # Show the math question
     questionString = ''
