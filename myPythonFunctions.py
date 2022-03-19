@@ -61,7 +61,7 @@ def genQuestion():
     # Set up the variables containers
     operandList  = [0, 0, 0, 0, 0]
     operatorList = ['','','','']
-    operatorDict = { 1: '+', 2: '-', 3: '*', 4: '**'}
+    operatorDict = { 1: '+', 2: '-', 3: '*', 4: '**', 5: '/'}
 
     # Populate operand list
     for n in range(len(operandList)):
@@ -74,9 +74,9 @@ def genQuestion():
             # return any operator except '**' by excluding operatorDict[4]
             # operatorList[m] = operatorDict[randint(1, 3)]
             while (operatorList[m] == ''  or  operatorList[m] == '**'):
-                operatorList[m] = operatorDict[randint(1, 4)]
+                operatorList[m] = operatorDict[randint(1, len(operatorDict))]
         else:
-            operatorList[m] = operatorDict[randint(1, 4)]
+            operatorList[m] = operatorDict[randint(1, len(operatorDict))]
     
     # Tack on one final '' to operatorList to help with printing question in loop
     operatorList.append('')
@@ -85,7 +85,7 @@ def genQuestion():
     questionString = ''
     for p in range(len(operandList)):
         questionString += f"{operandList[p]}{operatorList[p]}"
-    result = eval(questionString)
+    result = round(eval(questionString))
     questionString = questionString.replace('**', '^')
     print(f"{questionString} = ")
     while True:
