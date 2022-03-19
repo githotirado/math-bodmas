@@ -81,10 +81,22 @@ def genQuestionString():
         else:
             operandList[n] = randint(0, 9)
 
+    # Support using one set of brackets () around 3 operands
+    #    hence (od0 or0 od1 or1 od2) or2 od3 or3 od4
+    #          od0 or0 (od1 or1 od2 or2 od3) or3 od4
+    #          od0 or0 od1 or1 (od2 or2 od3 or3 od4)
+    bracketstart = randint(0, 2)
+    bracketend = bracketstart + 2
+
     # Show the math question
     questionString = ''
     for p in range(len(operandList)):
-        questionString += f"{operandList[p]}{operatorList[p]}"
+        if p == bracketstart:
+            questionString += f"({operandList[p]}{operatorList[p]}"
+        elif p == bracketend:
+            questionString += f"{operandList[p]}){operatorList[p]}"
+        else:
+            questionString += f"{operandList[p]}{operatorList[p]}"
 
     return questionString
 
@@ -98,7 +110,7 @@ def genQuestion():
     while (result < -50000 or result > 50000):
         qString = genQuestionString()
         result = round(eval(qString))
-        print(f"Debug: {qString} = {result}")
+        # print(f"Debug: {qString} = {result}")
     qString = qString.replace('**', '^')
     print(f"{qString} = ")
     while True:
