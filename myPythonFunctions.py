@@ -62,17 +62,10 @@ def genQuestion():
     operandList  = [0, 0, 0, 0, 0]
     operatorList = ['','','','']
     operatorDict = { 1: '+', 2: '-', 3: '*', 4: '**', 5: '/'}
-
-    # Populate operand list
-    for n in range(len(operandList)):
-        operandList[n] = randint(0, 9)
         
     # Populate operator list, avoiding two consecutive '**'
     for m in range(len(operatorList)):
         if (m > 0 and operatorList[m - 1] == '**'):
-            # Instead of the next 'while' loop, make the 'randint' function
-            # return any operator except '**' by excluding operatorDict[4]
-            # operatorList[m] = operatorDict[randint(1, 3)]
             while (operatorList[m] == ''  or  operatorList[m] == '**'):
                 operatorList[m] = operatorDict[randint(1, len(operatorDict))]
         else:
@@ -81,10 +74,19 @@ def genQuestion():
     # Tack on one final '' to operatorList to help with printing question in loop
     operatorList.append('')
 
+    # Populate operand list.  If operator is "/", avoid '0' to avoid divide by '0'
+    for n in range(len(operandList)):
+        if (n > 0 and operatorList[n - 1] == "/"):
+            while (operandList[n] == 0):
+                operandList[n] = randint(0, 9)
+        else:
+            operandList[n] = randint(0, 9)
+
     # Show the math question
     questionString = ''
     for p in range(len(operandList)):
         questionString += f"{operandList[p]}{operatorList[p]}"
+    # print(f"{questionString} = ")
     result = round(eval(questionString))
     questionString = questionString.replace('**', '^')
     print(f"{questionString} = ")
