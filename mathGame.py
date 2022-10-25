@@ -4,7 +4,7 @@ try:
     # Determine if the user has recorded any scores previously
     userName = input("Enter your first name: ")
     userScore = int(mp.getUserPoint(userName))
-    # print(f"User {userName} score is {userScore}")
+    print(f"User {userName} score is {userScore}")
     if userScore == -1:
         newUser = True
         userScore = 0
